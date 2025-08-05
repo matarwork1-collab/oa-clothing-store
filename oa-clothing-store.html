@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O&A - Fashion Store</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-purple: #8B4FBE;
+            --light-purple: #B794D4;
+            --dark-purple: #553C9A;
+            --white: #FFFFFF;
+            --light-gray: #F7FAFC;
+            --text-dark: #2D3748;
+            --text-light: #718096;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--light-gray);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-purple), var(--dark-purple));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(139, 79, 190, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .language-toggle {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .language-toggle:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin: 3rem 0;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--white), var(--light-gray));
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(139, 79, 190, 0.1);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-purple), var(--dark-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #25D366;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(139, 79, 190, 0.1);
+            margin-bottom: 3rem;
+        }
+
+        .admin-panel h2 {
+            color: var(--primary-purple);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .admin-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 0.8rem;
+            border: 2px solid #E2E8F0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-purple);
+            box-shadow: 0 0 0 3px rgba(139, 79, 190, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary-purple), var(--dark-purple));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 79, 190, 0.3);
+        }
+
+        /* Categories */
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(139, 79, 190, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(139, 79, 190, 0.2);
+        }
+
+        .category-card h3 {
+            color: var(--primary-purple);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        /* Product Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(139, 79, 190, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(139, 79, 190, 0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 3rem;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-info h4 {
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .product-price {
+            color: var(--primary-purple);
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .buy-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-purple), var(--dark-purple));
+            color: white;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .buy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 79, 190, 0.3);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 15px;
+        }
+
+        .close:hover {
+            color: var(--primary-purple);
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, var(--dark-purple), var(--primary-purple));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .footer p {
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .admin-form {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Hidden sections */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Arabic RTL support */
+        .rtl {
+            direction: rtl;
+        }
+
+        .rtl .nav-container {
+            flex-direction: row-reverse;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">O&A</div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#home" onclick="showSection('home')" data-en="Home" data-ar="الرئيسية">Home</a></li>
+                    <li><a href="#men" onclick="showSection('men')" data-en="Men" data-ar="رجال">Men</a></li>
+                    <li><a href="#women" onclick="showSection('women')" data-en="Women" data-ar="نساء">Women</a></li>
+                    <li><a href="#kids" onclick="showSection('kids')" data-en="Kids" data-ar="أطفال">Kids</a></li>
+                    <li><a href="#admin" onclick="showSection('admin')" data-en="Admin" data-ar="إدارة">Admin</a></li>
+                    <li><button class="language-toggle" onclick="toggleLanguage()" id="langBtn">العربية</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <h1 data-en="Welcome to O&A Fashion" data-ar="مرحباً بكم في متجر O&A للأزياء">Welcome to O&A Fashion</h1>
+                <p data-en="Discover the latest trends in clothing for men, women, and kids" data-ar="اكتشف أحدث صيحات الموضة للرجال والنساء والأطفال">Discover the latest trends in clothing for men, women, and kids</p>
+                <a href="https://wa.me/201207494920" class="whatsapp-btn" target="_blank">
+                    <span>📱</span>
+                    <span data-en="Contact us on WhatsApp" data-ar="تواصل معنا عبر واتساب">Contact us on WhatsApp</span>
+                </a>
+            </div>
+
+            <div class="categories">
+                <div class="category-card" onclick="showSection('men')">
+                    <h3 data-en="Men's Collection" data-ar="مجموعة الرجال">Men's Collection</h3>
+                    <p data-en="T-shirts, Pants, Shirts, Sets & Shoes" data-ar="تيشيرتات، بناطيل، قمصان، طقم وأحذية">T-shirts, Pants, Shirts, Sets & Shoes</p>
+                </div>
+                <div class="category-card" onclick="showSection('women')">
+                    <h3 data-en="Women's Collection" data-ar="مجموعة النساء">Women's Collection</h3>
+                    <p data-en="T-shirts, Pants, Shirts, Sets & Shoes" data-ar="تيشيرتات، بناطيل، قمصان، طقم وأحذية">T-shirts, Pants, Shirts, Sets & Shoes</p>
+                </div>
+                <div class="category-card" onclick="showSection('kids')">
+                    <h3 data-en="Kids Collection" data-ar="مجموعة الأطفال">Kids Collection</h3>
+                    <p data-en="Comfortable and stylish clothes for children" data-ar="ملابس مريحة وأنيقة للأطفال">Comfortable and stylish clothes for children</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Men Section -->
+        <section id="men" class="section">
+            <h2 data-en="Men's Collection" data-ar="مجموعة الرجال">Men's Collection</h2>
+            
+            <div class="categories">
+                <div class="category-card" onclick="filterProducts('men', 'tshirt')">
+                    <h3 data-en="T-Shirts" data-ar="تيشيرتات">T-Shirts</h3>
+                </div>
+                <div class="category-card" onclick="filterProducts('men', 'pants')">
+                    <h3 data-en="Pants" data-ar="بناطيل">Pants</h3>
+                </div>
+                <div class="category-card" onclick="filterProducts('men', 'shirt')">
+                    <h3 data-en="Shirts" data-ar="قمصان">Shirts</h3>
+                </div>
+                <div class="category-card" onclick="filterProducts('men', 'set')">
+                    <h3 data-en="Sets" data-ar="طقم">Sets</h3>
+                </div>
+                <div class="category-card" onclick="filterProducts('men', 'shoes')">
+                    <h3 data-en="Shoes" data-ar="أحذية">Shoes</h3>
+                </div>
+            </div>
+
+            <div id="men-products" class="products-grid">
+                <!-- Products will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <!-- Women Section -->
+        <section id="women" class="section">
+            <h2 data-en="Women's Collection" data-ar="مجموعة النساء">Women's Collection</h2>
+            
+            <div class="categories">
+                <div class="category-card" onclick="filterProducts('women', 'tshirt')">
+                    <h3 data-en="T-Shirts" data-ar="تيشيرتات">T-Shirts</h3>
+                </div>
+                <div class="category-card" onclick="filterProducts('women', 'pants')">
+                    <h3 data-en="Pants" data-ar="بناطيل">Pants</h3>
+                </div>
+                <div class="category-card" onclick="filterProducts('women', 'shirt')">
+                    <h3 data-en="Shirts" data-ar="قمصان">Shirts</h3>
+                </div>
+                <div class="category-card" onclick="filterProducts('women', 'set')">
+                    <h3 data-en="Sets" data-ar="طقم">Sets</h3>
+                </div>
+                <div class="category-card" onclick="filterProducts('women', 'shoes')">
+                    <h3 data-en="Shoes" data-ar="أحذية">Shoes</h3>
+                </div>
+            </div>
+
+            <div id="women-products" class="products-grid">
+                <!-- Products will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <!-- Kids Section -->
+        <section id="kids" class="section">
+            <h2 data-en="Kids Collection" data-ar="مجموعة الأطفال">Kids Collection</h2>
+            
+            <div class="categories">
+                <div class="category-card" onclick="filterProducts('kids', 'tshirt')">
+                    <h3 data-en="T-Shirts" data-ar="تيشيرتات">T-Shirts</h3>
+                </div>
+                <div class="category-card" onclick="filterProducts('kids', 'pants')">
+                    <h3 data-en="Pants" data-ar="بناطيل">Pants</h3>
+                </div>
+                <div class="category-card" onclick="filterProducts('kids', 'set')">
+                    <h3 data-en="Sets" data-ar="طقم">Sets</h3>
+                </div>
+                <div class="category-card" onclick="filterProducts('kids', 'shoes')">
+                    <h3 data-en="Shoes" data-ar="أحذية">Shoes</h3>
+                </div>
+            </div>
+
+            <div id="kids-products" class="products-grid">
+                <!-- Products will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <!-- Admin Section -->
+        <section id="admin" class="section">
+            <div class="admin-panel">
+                <h2 data-en="Admin Panel - Add New Product" data-ar="لوحة الإدارة - إضافة منتج جديد">Admin Panel - Add New Product</h2>
+                
+                <form class="admin-form" onsubmit="addProduct(event)">
+                    <div class="form-group">
+                        <label data-en="Product Name" data-ar="اسم المنتج">Product Name</label>
+                        <input type="text" id="productName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label data-en="Product Name (Arabic)" data-ar="اسم المنتج (بالعربية)">Product Name (Arabic)</label>
+                        <input type="text" id="productNameAr" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label data-en="Price (EGP)" data-ar="السعر (جنيه)">Price (EGP)</label>
+                        <input type="number" id="productPrice" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label data-en="Category" data-ar="الفئة">Category</label>
+                        <select id="productCategory" required>
+                            <option value="">Select Category</option>
+                            <option value="men">Men</option>
+                            <option value="women">Women</option>
+                            <option value="kids">Kids</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label data-en="Type" data-ar="النوع">Type</label>
+                        <select id="productType" required>
+                            <option value="">Select Type</option>
+                            <option value="tshirt">T-Shirt</option>
+                            <option value="pants">Pants</option>
+                            <option value="shirt">Shirt</option>
+                            <option value="set">Set</option>
+                            <option value="shoes">Shoes</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label data-en="Image URL" data-ar="رابط الصورة">Image URL</label>
+                        <input type="url" id="productImage">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label data-en="Description" data-ar="الوصف">Description</label>
+                        <textarea id="productDescription" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label data-en="Available Sizes" data-ar="المقاسات المتاحة">Available Sizes</label>
+                        <input type="text" id="productSizes" placeholder="S, M, L, XL">
+                    </div>
+                    
+                    <button type="submit" class="btn" data-en="Add Product" data-ar="إضافة منتج">Add Product</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Order Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 data-en="Place Your Order" data-ar="اطلب الآن">Place Your Order</h2>
+            
+            <form id="orderForm">
+                <div class="form-group">
+                    <label data-en="Age" data-ar="العمر">Age</label>
+                    <input type="number" id="customerAge" required min="1" max="100">
+                </div>
+                
+                <div class="form-group">
+                    <label data-en="Weight (kg)" data-ar="الوزن (كيلو)">Weight (kg)</label>
+                    <input type="number" id="customerWeight" required min="1" max="300">
+                </div>
+                
+                <div class="form-group">
+                    <label data-en="Height (cm)" data-ar="الطول (سم)">Height (cm)</label>
+                    <input type="number" id="customerHeight" required min="50" max="250">
+                </div>
+                
+                <div class="form-group">
+                    <label data-en="Size" data-ar="المقاس">Size</label>
+                    <select id="customerSize" required>
+                        <option value="">Select Size</option>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label data-en="Address" data-ar="العنوان">Address</label>
+                    <textarea id="customerAddress" required rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label data-en="Payment Method" data-ar="طريقة الدفع">Payment Method</label>
+                    <select id="paymentMethod" required>
+                        <option value="">Select Payment Method</option>
+                        <option value="cod" data-en="Cash on Delivery" data-ar="الدفع عند الاستلام">Cash on Delivery</option>
+                        <option value="ewallet" data-en="E-wallet (01200285969)" data-ar="محفظة إلكترونية (01200285969)">E-wallet (01200285969)</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn" data-en="Confirm Order" data-ar="تأكيد الطلب">Confirm Order</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <h3>O&A Fashion Store</h3>
+            <p data-en="Your trusted destination for quality fashion" data-ar="وجهتك الموثوقة للأزياء عالية الجودة">Your trusted destination for quality fashion</p>
+            <p data-en="Contact us: 01207494920 | E-wallet: 01200285969" data-ar="اتصل بنا: 01207494920 | المحفظة الإلكترونية: 01200285969">Contact us: 01207494920 | E-wallet: 01200285969</p>
+        </div>
+    </footer>
+
+    <script>
+        // Global variables
+        let currentLanguage = 'en';
+        let products = [];
+        let currentProduct = null;
+
+        // Language toggle functionality
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
+            document.body.classList.toggle('rtl', currentLanguage === 'ar');
+            document.body.setAttribute('dir', currentLanguage === 'ar' ? 'rtl' : 'ltr');
+            
+            // Update all elements with language attributes
+            const elements = document.querySelectorAll('[data-en][data-ar]');
+            elements.forEach(element => {
+                element.textContent = element.getAttribute(`data-${currentLanguage}`);
+            });
+            
+            // Update language button
+            document.getElementById('langBtn').textContent = currentLanguage === 'en' ? 'العربية' : 'English';
+            
+            // Update payment method options
+            updatePaymentOptions();
+        }
+
+        function updatePaymentOptions() {
+            const paymentSelect = document.getElementById('paymentMethod');
+            const options = paymentSelect.querySelectorAll('option[data-en][data-ar]');
+            options.forEach(option => {
+                if (option.getAttribute('data-en') && option.getAttribute('data-ar')) {
+                    option.textContent = option.getAttribute(`data-${currentLanguage}`);
+                }
+            });
+        }
+
+        // Section navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Load products for category sections
+            if (['men', 'women', 'kids'].includes(sectionId)) {
+                loadProducts(sectionId);
+            }
+        }
+
+        // Product management
+        function addProduct(event) {
+            event.preventDefault();
+            
+            const product = {
+                id: Date.now(),
+                name: document.getElementById('productName').value,
+                nameAr: document.getElementById('productNameAr').value,
+                price: parseFloat(document.getElementById('productPrice').value),
+                category: document.getElementById('productCategory').value,
+                type: document.getElementById('productType').value,
+                image: document.getElementById('productImage').value,
+                description: document.getElementById('productDescription').value,
+                sizes: document.getElementById('productSizes').value.split(',').map(s => s.trim())
+            };
+            
+            products.push(product);
+            
+            // Save to localStorage equivalent (using a global variable for this demo)
+            saveProducts();
+            
+            // Reset form
+            event.target.reset();
+            
+            alert(currentLanguage === 'en' ? 'Product added successfully!' : 'تم إضافة المنتج بنجاح!');
+        }
+
+        function saveProducts() {
+            // In a real application, this would save to a database
+            // For demo purposes, we'll keep products in memory
+            console.log('Products saved:', products);
+        }
+
+        function loadProducts(category) {
+            const container = document.getElementById(`${category}-products`);
+            const categoryProducts = products.filter(p => p.category === category);
+            
+            if (categoryProducts.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; grid-column: 1/-1;">
+                        <p style="color: var(--text-light); font-size: 1.2rem;" data-en="No products available. Use the Admin panel to add products." data-ar="لا توجد منتجات متاحة. استخدم لوحة الإدارة لإضافة منتجات.">
+                            No products available. Use the Admin panel to add products.
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = categoryProducts.map(product => `
+                <div class="product-card">
+                    <div class="product-image">
+                        ${
